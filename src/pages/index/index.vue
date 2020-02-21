@@ -4,97 +4,34 @@
     <!-- 焦点图 -->
     <swiper class="banner" indicator-dots indicator-color="rgba(255, 255, 255, 0.6)" indicator-active-color="#fff">
       <swiper-item v-for="item in bannerList" :key="item.goods_id">
-        <navigator url="/pages/goods/index">
+        <navigator url="'/pages/goods/index/id='+item.goods_id">
           <image :src="item.image_src"></image>
         </navigator>
       </swiper-item>
     </swiper>
     <!-- 导航条 -->
     <view class="navs">
-      <navigator open-type="switchTab" url="/pages/category/index">
-        <image src="http://static.botue.com/ugo/uploads/icon_index_nav_4@2x.png"></image>
-      </navigator>
-      <navigator url="/pages/list/index">
-        <image src="http://static.botue.com/ugo/uploads/icon_index_nav_3@2x.png"></image>
-      </navigator>
-      <navigator url="/pages/list/index">
-        <image src="http://static.botue.com/ugo/uploads/icon_index_nav_2@2x.png"></image>
-      </navigator>
-      <navigator url="/pages/list/index">
-        <image src="http://static.botue.com/ugo/uploads/icon_index_nav_1@2x.png"></image>
+      <navigator open-type="switchTab" url="/pages/category/index" v-for="item in navList" :key="item.name">
+        <image :src="item.image_src"></image>
       </navigator>
     </view>
     <!-- 楼层 -->
     <view class="floors">
-      <view class="floor">
+      <view class="floor" v-for="(item,index) in floorList" :key="index">
+
         <view class="title">
-          <image src="http://static.botue.com/ugo/uploads/pic_floor01_title.png"></image>
+          <image :src="item.floor_title.image_src"></image>
         </view>
+
         <view class="items">
-          <navigator url="/pages/list/index">
-            <image src="http://static.botue.com/ugo/uploads/pic_floor01_1@2x.png"></image>
-          </navigator>
-          <navigator url="/pages/list/index">
-            <image src="http://static.botue.com/ugo/uploads/pic_floor01_2@2x.png"></image>
-          </navigator>
-          <navigator url="/pages/list/index">
-            <image src="http://static.botue.com/ugo/uploads/pic_floor01_3@2x.png"></image>
-          </navigator>
-          <navigator url="/pages/list/index">
-            <image src="http://static.botue.com/ugo/uploads/pic_floor01_4@2x.png"></image>
-          </navigator>
-          <navigator url="/pages/list/index">
-            <image src="http://static.botue.com/ugo/uploads/pic_floor01_5@2x.png"></image>
-          </navigator>
-        </view>
-      </view>
-      <view class="floor">
-        <view class="title">
-          <image src="http://static.botue.com/ugo/uploads/pic_floor02_title.png"/>
-        </view>
-        <view class="items">
-          <navigator url="/pages/list/index">
-            <image src="http://static.botue.com/ugo/uploads/pic_floor02_1@2x.png"></image>
-          </navigator>
-          <navigator url="/pages/list/index">
-            <image src="http://static.botue.com/ugo/uploads/pic_floor02_2@2x.png"></image>
-          </navigator>
-          <navigator url="/pages/list/index">
-            <image src="http://static.botue.com/ugo/uploads/pic_floor02_3@2x.png"></image>
-          </navigator>
-          <navigator url="/pages/list/index">
-            <image src="http://static.botue.com/ugo/uploads/pic_floor02_4@2x.png"></image>
-          </navigator>
-          <navigator url="/pages/list/index">
-            <image src="http://static.botue.com/ugo/uploads/pic_floor02_5@2x.png"></image>
-          </navigator>
-        </view>
-      </view>
-      <view class="floor">
-        <view class="title">
-          <image src="http://static.botue.com/ugo/uploads/pic_floor03_title.png"></image>
-        </view>
-        <view class="items">
-          <navigator url="/pages/list/index">
-            <image src="http://static.botue.com/ugo/uploads/pic_floor03_1@2x.png"></image>
-          </navigator>
-          <navigator url="/pages/list/index">
-            <image src="http://static.botue.com/ugo/uploads/pic_floor03_2@2x.png"></image>
-          </navigator>
-          <navigator url="/pages/list/index">
-            <image src="http://static.botue.com/ugo/uploads/pic_floor03_3@2x.png"></image>
-          </navigator>
-          <navigator url="/pages/list/index">
-            <image src="http://static.botue.com/ugo/uploads/pic_floor03_4@2x.png"></image>
-          </navigator>
-          <navigator url="/pages/list/index">
-            <image src="http://static.botue.com/ugo/uploads/pic_floor03_5@2x.png"></image>
+          <navigator url="/pages/list/index" v-for="product in item.product_list" :key="product.image_width">
+            <image :src="product.image_src" alt="product.name"></image>
           </navigator>
         </view>
       </view>
     </view>
     <!-- 回到顶部 -->
-    <view class="goTop icon-top"></view>
+    <view class="goTop icon-top" @click="onTop" v-if="isgoTop"></view>
   </view>
 </template>
 
@@ -106,7 +43,12 @@
     data () {
       return {
         pageHeight: 'auto',
-        bannerList:[]
+        bannerList:[],
+        navList:[],
+        floorList:[],
+        // 控制回到顶部的显隐
+        isgoTop:false
+
       }
     },
 
@@ -118,16 +60,59 @@
       disableScroll (ev) {
         this.pageHeight = ev.pageHeight + 'px';
       },
+      // 获取轮播图
       async getSwiperList () {
        const {message}= await this.request ({
           url: "/api/public/v1/home/swiperdata"
         })
         this.bannerList = message      
+      },
+      //获取导航菜单
+       async getNavList () {
+       const {message}= await this.request ({
+          url: "/api/public/v1/home/catitems"
+        })
+        this.navList = message            
+      },
+      //获取楼层
+       async getFloorList () {
+       const {message}= await this.request ({
+          url: "/api/public/v1/home/floordata"
+        })
+        this.floorList = message            
+      },
+      //回到顶部
+      onTop() {
+        uni.pageScrollTo({
+          scrollTop:0,
+          duration:1000
+        })
       }
     },
     onLoad () {
       this.getSwiperList()
-    }
+      this.getNavList()
+      this.getFloorList ()
+    },
+     //下拉刷新
+      async onPullDownRefresh() {
+        重新获取数据
+        await this.getSwiperList()
+        await this.getNavList()
+        await this.getFloorList ()
+        // api：结束下拉效果
+        uni.stopPullDownRefresh()
+      },
+      // 页面滚动时
+      onPageScroll (event) {
+        // console.log(event);
+        // 判断滚动的距离
+        if (event.scrollTop>200) {
+          this.isgoTop = true
+        }else {
+          this.isgoTop = false
+        }
+      }
   }
 </script>
 
