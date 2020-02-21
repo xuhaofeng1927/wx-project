@@ -3,19 +3,9 @@
     <search @search="disableScroll" />
     <!-- 焦点图 -->
     <swiper class="banner" indicator-dots indicator-color="rgba(255, 255, 255, 0.6)" indicator-active-color="#fff">
-      <swiper-item>
+      <swiper-item v-for="item in bannerList" :key="item.goods_id">
         <navigator url="/pages/goods/index">
-          <image src="http://static.botue.com/ugo/uploads/banner1.png"></image>
-        </navigator>
-      </swiper-item>
-      <swiper-item>
-        <navigator url="/pages/goods/index">
-          <image src="http://static.botue.com/ugo/uploads/banner2.png"></image>
-        </navigator>
-      </swiper-item>
-      <swiper-item>
-        <navigator url="/pages/goods/index">
-          <image src="http://static.botue.com/ugo/uploads/banner3.png"></image>
+          <image :src="item.image_src"></image>
         </navigator>
       </swiper-item>
     </swiper>
@@ -115,7 +105,8 @@
 
     data () {
       return {
-        pageHeight: 'auto'
+        pageHeight: 'auto',
+        bannerList:[]
       }
     },
 
@@ -126,7 +117,16 @@
     methods: {
       disableScroll (ev) {
         this.pageHeight = ev.pageHeight + 'px';
+      },
+      async getSwiperList () {
+       const {message}= await this.request ({
+          url: "/api/public/v1/home/swiperdata"
+        })
+        this.bannerList = message      
       }
+    },
+    onLoad () {
+      this.getSwiperList()
     }
   }
 </script>
