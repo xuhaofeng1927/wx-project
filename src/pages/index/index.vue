@@ -1,238 +1,218 @@
 <template>
-	<!-- 容器 -->
-	<view class="continer">
-		<!-- 搜索框 -->
-		<view class="serch">
-			<input type="text" placeholder="搜索" >
-		</view>
-		<!-- 轮播图 -->
-		<swiper indicator-dots>
-			<swiper-item>
-				<navigator src="">
-					<image src="/static/uploads/banner1.png"/>
-				</navigator>
-			</swiper-item>
-			<swiper-item>
-				<navigator src="">
-					<image src="/static/uploads/banner2.png"/>
-				</navigator>
-			</swiper-item>
-			<swiper-item>
-				<navigator src="">
-					<image src="/static/uploads/banner3.png"/>
-				</navigator>
-			</swiper-item>
-		</swiper>
-		<!-- 导航区 -->
-		<view class="nav">
-			<navigator class="item" src="">
-				<image src="/static/uploads/icon_index_nav_1@2x.png"/>
-			</navigator>
-			<navigator class="item" src="">
-				<image src="/static/uploads/icon_index_nav_2@2x.png"/>
-			</navigator>
-			<navigator class="item" src="">
-				<image src="/static/uploads/icon_index_nav_3@2x.png"/>
-			</navigator>
-			<navigator class="item" src="">
-				<image src="/static/uploads/icon_index_nav_4@2x.png"/>
-			</navigator>
-		</view>
-		<!-- 楼层 -->
-		<!-- floor 1 -->
-		<view class="floor floor_1">
-			<view class="title">
-				<image src="/static/uploads/pic_floor01_title.png"/>
-			</view>
-
-			<view class="imgs">
-				<navigator class="item">
-					<image src="/static/uploads/pic_floor01_1@2x.png"/>
-				</navigator>
-				<navigator class="item">
-					<image src="/static/uploads/pic_floor01_2@2x.png"/>
-				</navigator>
-				<navigator class="item">
-					<image src="/static/uploads/pic_floor01_3@2x.png"/>
-				</navigator>
-				<navigator class="item">
-					<image src="/static/uploads/pic_floor01_4@2x.png"/>
-				</navigator>
-				<navigator class="item">
-					<image src="/static/uploads/pic_floor01_5@2x.png"/>
-				</navigator>
-			</view>
-		</view>
-		<!-- floor 2 -->
-		<view class="floor">
-			<view class="title">
-				<image src="/static/uploads/pic_floor02_title.png"/>
-			</view>
-
-			<view class="imgs">
-				<navigator class="item">
-					<image src="/static/uploads/pic_floor02_1@2x.png"/>
-				</navigator>
-				<navigator class="item">
-					<image src="/static/uploads/pic_floor02_2@2x.png"/>
-				</navigator>
-				<navigator class="item">
-					<image src="/static/uploads/pic_floor02_3@2x.png"/>
-				</navigator>
-				<navigator class="item">
-					<image src="/static/uploads/pic_floor02_4@2x.png"/>
-				</navigator>
-				<navigator class="item">
-					<image src="/static/uploads/pic_floor02_5@2x.png"/>
-				</navigator>
-			</view>
-		</view>
-		<!-- floor 3 -->
-		<view class="floor">
-			<view class="title">
-				<image src="/static/uploads/pic_floor03_title.png"/>
-			</view>
-
-			<view class="imgs">
-				<navigator class="item">
-					<image src="/static/uploads/pic_floor03_1@2x.png"/>
-				</navigator>
-				<navigator class="item">
-					<image src="/static/uploads/pic_floor03_2@2x.png"/>
-				</navigator>
-				<navigator class="item">
-					<image src="/static/uploads/pic_floor03_3@2x.png"/>
-				</navigator>
-				<navigator class="item">
-					<image src="/static/uploads/pic_floor03_4@2x.png"/>
-				</navigator>
-				<navigator class="item">
-					<image src="/static/uploads/pic_floor03_5@2x.png"/>
-				</navigator>
-			</view>
-		</view>
-	</view>
+  <view :style="{height: pageHeight, overflow: 'hidden'}">
+    <search @search="disableScroll" />
+    <!-- 焦点图 -->
+    <swiper class="banner" indicator-dots indicator-color="rgba(255, 255, 255, 0.6)" indicator-active-color="#fff">
+      <swiper-item>
+        <navigator url="/pages/goods/index">
+          <image src="http://static.botue.com/ugo/uploads/banner1.png"></image>
+        </navigator>
+      </swiper-item>
+      <swiper-item>
+        <navigator url="/pages/goods/index">
+          <image src="http://static.botue.com/ugo/uploads/banner2.png"></image>
+        </navigator>
+      </swiper-item>
+      <swiper-item>
+        <navigator url="/pages/goods/index">
+          <image src="http://static.botue.com/ugo/uploads/banner3.png"></image>
+        </navigator>
+      </swiper-item>
+    </swiper>
+    <!-- 导航条 -->
+    <view class="navs">
+      <navigator open-type="switchTab" url="/pages/category/index">
+        <image src="http://static.botue.com/ugo/uploads/icon_index_nav_4@2x.png"></image>
+      </navigator>
+      <navigator url="/pages/list/index">
+        <image src="http://static.botue.com/ugo/uploads/icon_index_nav_3@2x.png"></image>
+      </navigator>
+      <navigator url="/pages/list/index">
+        <image src="http://static.botue.com/ugo/uploads/icon_index_nav_2@2x.png"></image>
+      </navigator>
+      <navigator url="/pages/list/index">
+        <image src="http://static.botue.com/ugo/uploads/icon_index_nav_1@2x.png"></image>
+      </navigator>
+    </view>
+    <!-- 楼层 -->
+    <view class="floors">
+      <view class="floor">
+        <view class="title">
+          <image src="http://static.botue.com/ugo/uploads/pic_floor01_title.png"></image>
+        </view>
+        <view class="items">
+          <navigator url="/pages/list/index">
+            <image src="http://static.botue.com/ugo/uploads/pic_floor01_1@2x.png"></image>
+          </navigator>
+          <navigator url="/pages/list/index">
+            <image src="http://static.botue.com/ugo/uploads/pic_floor01_2@2x.png"></image>
+          </navigator>
+          <navigator url="/pages/list/index">
+            <image src="http://static.botue.com/ugo/uploads/pic_floor01_3@2x.png"></image>
+          </navigator>
+          <navigator url="/pages/list/index">
+            <image src="http://static.botue.com/ugo/uploads/pic_floor01_4@2x.png"></image>
+          </navigator>
+          <navigator url="/pages/list/index">
+            <image src="http://static.botue.com/ugo/uploads/pic_floor01_5@2x.png"></image>
+          </navigator>
+        </view>
+      </view>
+      <view class="floor">
+        <view class="title">
+          <image src="http://static.botue.com/ugo/uploads/pic_floor02_title.png"/>
+        </view>
+        <view class="items">
+          <navigator url="/pages/list/index">
+            <image src="http://static.botue.com/ugo/uploads/pic_floor02_1@2x.png"></image>
+          </navigator>
+          <navigator url="/pages/list/index">
+            <image src="http://static.botue.com/ugo/uploads/pic_floor02_2@2x.png"></image>
+          </navigator>
+          <navigator url="/pages/list/index">
+            <image src="http://static.botue.com/ugo/uploads/pic_floor02_3@2x.png"></image>
+          </navigator>
+          <navigator url="/pages/list/index">
+            <image src="http://static.botue.com/ugo/uploads/pic_floor02_4@2x.png"></image>
+          </navigator>
+          <navigator url="/pages/list/index">
+            <image src="http://static.botue.com/ugo/uploads/pic_floor02_5@2x.png"></image>
+          </navigator>
+        </view>
+      </view>
+      <view class="floor">
+        <view class="title">
+          <image src="http://static.botue.com/ugo/uploads/pic_floor03_title.png"></image>
+        </view>
+        <view class="items">
+          <navigator url="/pages/list/index">
+            <image src="http://static.botue.com/ugo/uploads/pic_floor03_1@2x.png"></image>
+          </navigator>
+          <navigator url="/pages/list/index">
+            <image src="http://static.botue.com/ugo/uploads/pic_floor03_2@2x.png"></image>
+          </navigator>
+          <navigator url="/pages/list/index">
+            <image src="http://static.botue.com/ugo/uploads/pic_floor03_3@2x.png"></image>
+          </navigator>
+          <navigator url="/pages/list/index">
+            <image src="http://static.botue.com/ugo/uploads/pic_floor03_4@2x.png"></image>
+          </navigator>
+          <navigator url="/pages/list/index">
+            <image src="http://static.botue.com/ugo/uploads/pic_floor03_5@2x.png"></image>
+          </navigator>
+        </view>
+      </view>
+    </view>
+    <!-- 回到顶部 -->
+    <view class="goTop icon-top"></view>
+  </view>
 </template>
 
 <script>
-	export default {
-		data() {
-			return {
+  import search from '@/components/search';
 
-			}
-		},
-		onLoad() {
-  
-		},
-		methods: {
+  export default {
 
-		}
-	}
+    data () {
+      return {
+        pageHeight: 'auto'
+      }
+    },
+
+    components: {
+      search
+    },
+    
+    methods: {
+      disableScroll (ev) {
+        this.pageHeight = ev.pageHeight + 'px';
+      }
+    }
+  }
 </script>
 
-<style lang="less">
-.continer {
-	//搜索框样式
-	.serch {
-		display: flex;
-		box-sizing: border-box;
-		padding: 20rpx 16rpx;
-		background-color:#ff2d4a;
-		input {
-			width: 100%;
-			height: 60rpx;
-			border-radius: 5rpx;
-			background-color: white;
-		}
-	}
-	//轮播图样式
-	swiper {
-		height: 340rpx;
-		image {
-			width: 750rpx;
-			height: 340rpx;
-		} 
-	}
-	//导航
-	.nav {
-		display: flex;
-		height: 200rpx;
-		background-color: white;
-		.item {
-			flex: 1;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			image {
-				width: 128rpx;
-				height: 140rpx;
-			}
-		}
-	}
-	// 楼层
-	.floor {
-		// 标题
-		.title {
-			background-color: pink;
-			padding-top: 30rpx;
-			padding-left: 20rpx;
-			box-sizing: border-box;
-			image {
-				width: 100%;
-				height: 60rpx;
-			}
-		} 
-		//图像
-		.imgs {
-			padding:20rpx 16rpx;
-			box-sizing: border-box;
-			overflow: hidden;
-			.item {
-				float: left;
-				margin-right: 10rpx;
-				image {
-					display: block;
-				}
-			}
-			.item:nth-child(1) {
-				image {
-					width: 232rpx;
-					height: 386rpx;
-				}
-			}
-			.item:nth-child(2),
-			.item:nth-child(3) {
-				margin-bottom: 10rpx;
-			}
-			.item:nth-child(2),
-			.item:nth-child(5) {
-				image {
-					width: 273rpx;
-					height: 188rpx;
-				}
-			}
-			.item:nth-child(3),
-			.item:nth-child(4) {
-				image {
-					width: 203rpx;
-					height: 188rpx;
-				}
-			}
-			.item:nth-child(3),
-			.item:nth-child(5) {
-				margin-right: 0rpx;
-			}
-		}
-	} 
-	.floor_1 {
-		.imgs {
-			.item:nth-child(n+2) {
-				image {
-					width: 238rpx;
-					height: 188rpx;
-				}
-			}
-		}
-	}
-}
+<style scoped lang="less">
+  .banner {
+    width: 100%;
+    height: 340rpx;
+
+    image {
+      width: 100%;
+      height: 340rpx;
+    }
+  }
+
+  .navs {
+    display: flex;
+    justify-content: space-between;
+    padding: 30rpx 44rpx;
+
+    image {
+      width: 128rpx;
+      height: 140rpx;
+    }
+  }
+
+  .floor {
+
+    .title {
+      width: 750rpx;
+      height: 60rpx;
+      padding: 20rpx 0 0 8rpx;
+      background-color: #f4f4f4;
+    }
+
+    .items {
+      padding: 20rpx 16rpx;
+      overflow: hidden;
+
+      navigator {
+        width: 193rpx;
+        height: 188rpx;
+        margin-left: 10rpx;
+        margin-bottom: 10rpx;
+        float: left;
+      }
+
+      navigator:first-child {
+        width: 232rpx;
+        height: 386rpx;
+        margin-left: 0rpx;
+      }
+
+      navigator:nth-child(2),
+      navigator:nth-child(5) {
+        width: 273rpx;
+      }
+    }
+
+    &:first-child {
+
+      .items {
+
+        navigator {
+          width: 233rpx;
+        }
+      }
+    }
+  }
+
+  .goTop {
+    position: fixed;
+    bottom: 30rpx;
+    /* #ifdef H5 */
+    bottom: 65px;
+    /* #endif */
+    right: 30rpx;
+  
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100rpx;
+    height: 100rpx;
+    font-size: 48rpx;
+    color: #666;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.8);
+  }
 </style>
