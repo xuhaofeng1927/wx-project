@@ -6,16 +6,16 @@ export default function (config) {
         Vue.prototype.request = async function (params) {
 
             // params 接收请求的地址
-            const {url} = params
+            const {url,data} = params
             uni.showLoading({
                 title:"数据加载中。。。"
             })
             // 重新发送请求
             const [err,res] = await uni.request({
-                url:baseURL + url
+                url:baseURL + url,
+                data
             })
             uni.hideLoading();
-            console.log(err);
             return res.data
         }
     }
