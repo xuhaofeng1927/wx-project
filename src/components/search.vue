@@ -103,9 +103,7 @@ export default {
         url: "/pages/list/index?query=" + this.words
       });
     },
-    showTabBar () {
-      console.log(1);
-      
+    showTabBar () {      
       // 点击搜索列表和历史记录时显示tabBar页面
       uni.showTabBar();
     },

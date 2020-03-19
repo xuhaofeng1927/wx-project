@@ -4,7 +4,7 @@
     <!-- 焦点图 -->
     <swiper class="banner" indicator-dots indicator-color="rgba(255, 255, 255, 0.6)" indicator-active-color="#fff">
       <swiper-item v-for="item in bannerList" :key="item.goods_id">
-        <navigator url="'/pages/goods/index/id='+item.goods_id">
+        <navigator :url="`/pages/goods/index?id=${item.goods_id}`">
           <image :src="item.image_src"></image>
         </navigator>
       </swiper-item>
@@ -68,26 +68,26 @@
         this.bannerList = message      
       },
       //获取导航菜单
-       async getNavList () {
-       const {message}= await this.request ({
+      async getNavList () {
+        const {message}= await this.request ({
           url: "/api/public/v1/home/catitems"
         })
         this.navList = message            
       },
       //获取楼层
-       async getFloorList () {
-       const {message}= await this.request ({
-          url: "/api/public/v1/home/floordata"
-        })
-        this.floorList = message            
-      },
-      //回到顶部
-      onTop() {
-        uni.pageScrollTo({
-          scrollTop:0,
-          duration:1000
-        })
-      }
+    async getFloorList () {
+      const {message}= await this.request ({
+        url: "/api/public/v1/home/floordata"
+      })
+      this.floorList = message            
+    },
+    //回到顶部
+    onTop() {
+      uni.pageScrollTo({
+        scrollTop:0,
+        duration:1000
+      })
+    }
     },
     onLoad () {
       this.getSwiperList()
