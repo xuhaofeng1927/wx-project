@@ -96,7 +96,7 @@
     },
      //下拉刷新
       async onPullDownRefresh() {
-        重新获取数据
+        // 重新获取数据
         await this.getSwiperList()
         await this.getNavList()
         await this.getFloorList ()
