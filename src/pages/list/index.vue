@@ -7,7 +7,7 @@
       <text>价格</text>
     </view>
     <!-- 商品列表 -->
-    <scroll-view class="goods" scroll-y>
+    <scroll-view class="goods" scroll-y @scrolltolower="getBottom"> 
       <view class="item" @click="goDetail" v-for="(item) in goodsList" :key="item.goods_id">
         <!-- 商品图片 -->
         <image class="pic" :src="item.goods_small_logo"></image>
@@ -32,7 +32,7 @@
         // 页面索引
         pagenum:1,
         // 每页长度
-        pageSize:10,
+        pagesize:10,
         // 根据参数获取到的数据
          goodsList:[]
       }
@@ -50,12 +50,16 @@
           data:{
             query:this.query,
             pagenum:this.pagenum,
-            pageSize:this.pageSize
+            pagesize:this.pagesize
           }
-        })
-        console.log(message);
-        
-        this.goodsList = message.goods 
+        })    
+        this.goodsList= this.goodsList.concat(message.goods) 
+      },
+      // 列表触底事件
+      getBottom () {
+        console.log(1);   
+        this.pagenum++
+        this.getList()
       }
     },
     onLoad (params) {
