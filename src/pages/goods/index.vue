@@ -21,7 +21,7 @@
     <view class="action">
       <button open-type="contact" class="icon-handset">联系客服</button>
       <text class="cart icon-cart" @click="goCart">购物车</text>
-      <text class="add">加入购物车</text>
+      <text class="add" @click="addCarts">加入购物车</text>
       <text class="buy" @click="createOrder">立即购买</text>
     </view>
   </view>
@@ -32,20 +32,57 @@
     data () {
       return {
         // 详细商品数据
-        goods:''
+        goods:'',
+        // 购物车本地数据1.获取本地数据,防止没有没有数据
+        carts:uni.getStorageSync("carts")||[]
       }
     },
     methods: {
+      // 购物车
       goCart () {
         uni.showTabBar()
         uni.switchTab({
           url: '/pages/cart/index'
         })
       },
+      // 立即购买
       createOrder () {
         uni.navigateTo({
           url: '/pages/order/index'
         })
+      },
+      // 添加到购物车里
+      addCarts(){
+        // 2.要添加的数据
+        var one = {};
+        one.goods_id = this.goods.goods_id;
+        one.goods_name = this.goods.goods_name;
+        one.goods_price = this.goods.goods_price;
+        one.goods_small_logo = this.goods.goods_small_logo;
+        one.goods_number = 1;
+        // 要购买的状态:
+        one.goods_buy = true;
+        // 3.添加到数组  this.carts:看商品是否重复
+        //   3.1 Yes 数量加1；
+        // 假设该one 商品没有重复
+        var key = "未重复";
+        // 验证：key 可能会发生
+        for (var i = 0; i < this.carts.length; i++) {
+          // 商品重复，数量加1；
+          if (this.carts[i].goods_id == one.goods_id) {
+            this.carts[i].goods_number++;
+            key = "已重复";
+            break;
+          }
+        }
+        // 3.2 key：还是 "未重复"：真的没有重复商品,追加新的商品
+        if (key=="未重复") {
+          this.carts.push(one);
+        }
+        // 4.记得存回去：本地缓存
+        uni.setStorageSync("carts",this.carts);
+        // 5.优化：添加成功；
+        uni.showToast({title:"添加成功",icon:"none"})
       },
       //获取商品详情
       async getGoodsDetail (id) {
