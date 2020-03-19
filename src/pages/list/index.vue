@@ -34,7 +34,9 @@
         // 每页长度
         pagesize:10,
         // 根据参数获取到的数据
-         goodsList:[]
+        goodsList:[],
+        // 总条数
+        tolal:''
       }
     },
     methods: {
@@ -52,15 +54,24 @@
             pagenum:this.pagenum,
             pagesize:this.pagesize
           }
-        })    
-        this.goodsList= this.goodsList.concat(message.goods) 
+        })
+        console.log(message.total);
+        
+        this.goodsList= this.goodsList.concat(message.goods)
+        this.tolal = message.total
       },
       // 列表触底事件
-      getBottom () {
-        console.log(1);   
-        this.pagenum++
-        this.getList()
-      }
+       async getBottom(){
+        if (this.goodsList.length!==this.tolal) {
+          // 分页查讯
+          this.pagenum++;
+          // 再次请求的时候；异步
+          await this.getList();
+        }else {
+          return 
+        }      
+      },
+       
     },
     onLoad (params) {
       this.query = params.query
