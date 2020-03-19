@@ -8,7 +8,7 @@
     </view>
     <!-- 商品列表 -->
     <scroll-view class="goods" scroll-y @scrolltolower="getBottom"> 
-      <view class="item" @click="goDetail" v-for="(item) in goodsList" :key="item.goods_id">
+      <view class="item" @click="goDetail(item.goods_id)" v-for="(item) in goodsList" :key="item.goods_id">
         <!-- 商品图片 -->
         <image class="pic" :src="item.goods_small_logo"></image>
         <!-- 商品信息 -->
@@ -40,9 +40,10 @@
       }
     },
     methods: {
-      goDetail () {
+      goDetail (id) {
+        // 非tabBar跳转
         uni.navigateTo({
-          url: '/pages/goods/index'
+          url: `/pages/goods/index?id=${id}`
         })
       },
       // 获取搜索到数据

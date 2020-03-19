@@ -3,7 +3,13 @@
   <div class="search" :class="{focused: focused}">
     <!-- 搜索框 -->
     <div class="input-wrap" @click="goSearch">
-      <input type="text" :placeholder="placeholder" @input="searching" @confirm="confirm_search" v-model="words" />
+      <input
+        type="text"
+        :placeholder="placeholder"
+        @input="searching"
+        @confirm="confirm_search"
+        v-model="words"
+      />
       <span class="cancle" @click.stop="cancleSearch">取消</span>
     </div>
     <!-- 搜索结果 -->
@@ -12,9 +18,9 @@
         搜索历史
         <span class="clear" @click="clearLocal"></span>
       </div>
-    <!-- 曾经搜索过商品 -->
+      <!-- 曾经搜索过商品 -->
       <div class="history" v-for="(item,index) in  history" :key="index">
-        <navigator :url="'/pages/list/index?query='+item">{{item}}</navigator>
+        <navigator :url="'/pages/list/index?query='+item" @click="showTabBar">{{item}}</navigator>
       </div>
       <!-- 结果 -->
       <scroll-view scroll-y class="result" v-if="list.length">
@@ -22,6 +28,7 @@
           url="/pages/goods/index"
           v-for="item in list"
           :key="item.goods_id"
+          @click="showTabBar"
         >{{item.goods_name}}</navigator>
       </scroll-view>
     </div>
@@ -32,12 +39,13 @@
 export default {
   data() {
     return {
+      // 控制搜索开关
       focused: false,
       placeholder: "",
       words: "", // 输入值
       list: [],
       // 1.初始化的时候读取历史数据
-      history:uni.getStorageSync("history")||[]
+      history: uni.getStorageSync("history") || []
     };
   },
   methods: {
@@ -63,8 +71,8 @@ export default {
       this.$emit("search", {
         pageHeight: "auto"
       });
-      this.words = ""
-      this.list = []
+      this.words = "";
+      this.list = [];
 
       // 显示tabBar
       uni.showTabBar();
@@ -79,32 +87,35 @@ export default {
       });
       this.list = message;
     },
-     // 点发song
-      confirm_search(){
-        // 1.拿到输入的数据
-   
-        // 1.1 存起来；小米，小米；
-        this.history.push(this.words);
-
-        // 1.2 需求：多次输入一个查询的东西，去重；
-        this.history = [...new Set(this.history)];
-
-        // 1.3 存入本地数据
-        uni.setStorageSync("history",this.history);
-
-        // 2.去另外一个页面：JS部分去另外一个页面  
-        uni.navigateTo({
-          url:'/pages/list/index?query='+this.words,
-        });
-
-      },
-      // 清楚历史数据
-       // 点击删除历史记录：
-      clearLocal(){
-        // 清除本地和页面数据
-        uni.removeStorageSync("history");
-        this.history = [];
-      },
+    // 回车发送
+    confirm_search() {
+      // 显示TabBar栏
+      uni.showTabBar();
+      // 1.拿到输入的数据
+      // 1.1 存起来；小米，小米；
+      this.history.push(this.words);
+      // 1.2 需求：多次输入一个查询的东西，去重；
+      this.history = [...new Set(this.history)];
+      // 1.3 存入本地数据
+      uni.setStorageSync("history", this.history);
+      // 2.去另外商品列表页面
+      uni.navigateTo({
+        url: "/pages/list/index?query=" + this.words
+      });
+    },
+    showTabBar () {
+      console.log(1);
+      
+      // 点击搜索列表和历史记录时显示tabBar页面
+      uni.showTabBar();
+    },
+    // 清楚历史数据
+    // 点击删除历史记录
+    clearLocal() {
+      // 清除本地和页面数据
+      uni.removeStorageSync("history");
+      this.history = [];
+    }
   }
 };
 </script>

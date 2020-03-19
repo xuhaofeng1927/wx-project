@@ -112,6 +112,14 @@
         }else {
           this.isgoTop = false
         }
+      },
+      // 页面转发时
+      onShareAppMessage () {
+        return {
+          title: '欢迎使用优购!',
+          imageUrl: 'http://www.999zx.cn/adm_file/fck/images/2018/4/Image/20184386447866.jpg',
+          path: '/pages/index/index'
+        }
       }
   }
 </script>

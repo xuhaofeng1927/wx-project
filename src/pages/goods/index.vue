@@ -44,6 +44,7 @@
 
     methods: {
       goCart () {
+        uni.showTabBar()
         uni.switchTab({
           url: '/pages/cart/index'
         })
